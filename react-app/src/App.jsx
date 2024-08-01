@@ -1,10 +1,21 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 
 function App() {
   const [count, setCount] = useState(0)
+  const [users, setUsers] = useState([])
+
+  useEffect(() => {
+    fetchUsers();
+  }, [])
+
+  const fetchUsers = async () => {
+    const response = await fetch('http://localhost:8080/users')
+    const users = await response.json()
+    setUsers(users)
+  }
 
   return (
     <>
@@ -25,6 +36,7 @@ function App() {
           Ahoy!
         </p>
       </div>
+      {users && users.map(user => (`${user.email}`))}
       <p className="read-the-docs">
         add nppm install step
       </p>
